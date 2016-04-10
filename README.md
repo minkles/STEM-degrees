@@ -3,7 +3,7 @@ Final Project for Data Science at General Assembly
 
 This purpose of this project is to model the the likelihood of receiving a degree or finding employment in a STEM (science, technology, engineering, and math) field using logistic regression, and derive interesting conclusions from these models.
 
-For a non-technical overview of the project and its results, [read my most recent blog post]("https://michaelinkles.wordpress.com/2016/04/03/modeling-inequality-in-stem-2/") on the project.
+For a non-technical overview of the project and its results, read my most recent blog post on the project: [https://michaelinkles.wordpress.com/2016/04/03/modeling-inequality-in-stem-2/]("https://michaelinkles.wordpress.com/2016/04/03/modeling-inequality-in-stem-2/")
 
 In order to run any code from this repo, the 2013 American Community Survey data must be downloaded from [https://www.kaggle.com/census/2013-american-community-survey]("https://www.kaggle.com/census/2013-american-community-survey") to the STEM-degrees folder.
 
