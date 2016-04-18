@@ -9,6 +9,8 @@ In order to run any code from this repo, the 2013 American Community Survey data
 
 This repo contains the following:
 
+* __stem_low_memory.py__: The most recent and most efficient version of the code, but lacks some of the detail of the research process that's in the iPython notebook 
+
 * __finalproject-inkles.ipynb__: an iPython notebook containing all of my code along descriptions of the code in markdown, documenting my entire process
 
 * __stemdata.py__: a python script for all of the data wrangling that needs to be done on the original data for the models to work. it outputs a file called df_formatted.csv which is used by stemmodels.py
