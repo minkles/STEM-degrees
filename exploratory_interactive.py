@@ -12,11 +12,13 @@ df = pd.read_csv("df_formatted.csv")
 df.reset_index()
 df = df.drop('Unnamed: 0', 1)
 
+# These are all the data that will change when a new menu option is selected
 STATISTICS = ['White','Black','Asian','Hispanic','Male','Female','Total']
 
+# Function for reloading the data every time a new menu option is selected
 def get_dataset(src, name, counts, selection):
-    print selection
     state_name = str(name)
+    # Set up data by creating a pivot table for how the data is being grouped
     if state_name == "All States":
         if selection == 'Race':
             df2 = src.pivot_table(values='science_degree',index=['age_recode'],columns=['race_recode'],aggfunc="mean").reset_index()
@@ -31,16 +33,23 @@ def get_dataset(src, name, counts, selection):
             df2 = src.pivot_table(values='science_degree',index=['State','age_recode'],columns=['sex_recode'],aggfunc="mean").reset_index()
         else:
             df2 = src.pivot_table(values='science_degree',index=['State','age_recode'],aggfunc="mean").reset_index()
+        # subset only the state being used
         df2 = df2[df2.State == state_name].copy()
+    # Label each age group with the center
     df2['age_group'] = [25,31,37,43,49,55,61,67,73,80]
+    # Make age group the index so it's automatically the x axis
     df2 = df2.set_index(['age_group'])
     df2.sort_index(inplace=True)
     if selection == 'Race':
+        # set all unused columns to -1 so that they don't appear in the graph
+        # however these columns will still need to be carried over to ColumnDataSource
         df2['Totl'] = -1
         df2['Male'] = -1
         df2['Female'] = -1
         df2.fillna(-1, inplace=True)
         if state_name != "All States":
+            # Any race that has <1000 people in the sample for that given state will not be included
+            # due to small sample size
             for race in ['Asian','Black','White','Hispanic']:
                 if counts.loc[state_name][race] < 1000:
                     df2[race] = -1
@@ -64,6 +73,9 @@ def make_plot(source, title):
     plot = Figure(plot_width=1000, plot_height=600, tools="", toolbar_location=None, y_range=[0,0.5])
     plot.title = title
     
+    # Each possible line must be created
+    # In the current version of Bokeh, there is no way to hide or show lines interactively, which is
+    # why the values had to be set to -1 in the get_dataset function
     plot.line(x='age_group', y='Asian', color="cornflowerblue", 
         source=source, legend="Asian", line_width=2)
     plot.line(x='age_group', y='White', color="green", 
@@ -90,6 +102,8 @@ def make_plot(source, title):
 
 # set up callbacks
 def update_plot(attrname, old, new):
+    # When anything is changed, this function updates the title of the plot, 
+    # re-runs get_dataset, and replaced the old data with new data
     state = state_select.value
     selection = data_select.value
     plot.title = states[state]['name']
@@ -260,16 +274,23 @@ states = {
     }
 }
 
+# create dropdown menus
 state_select = Select(value=state, title='State', options=sorted(states.keys()))
 data_select = Select(value=selection, title='Group By:', options=['Race','Sex','Totals Only'])
 
+# counts dataframe used to determine if the sample size for a given race in a given state is large enough
 counts = df.pivot_table(values='science_degree',index='State',columns=['race_recode'],aggfunc="count")
+
+# get initial data
 source = get_dataset(df, states[state]['name'], counts, selection)
+
+# make the plot
 plot = make_plot(source, states[state]['name'])
 
+# add interactivity to menus
 state_select.on_change('value', update_plot)
 data_select.on_change('value', update_plot)
 
+# set up layout of plot
 controls = HBox(state_select, data_select)
-
 curdoc().add_root(VBox(controls, plot))
