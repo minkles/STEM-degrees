@@ -22,3 +22,9 @@ This repo contains the following:
 *  __shapefiles folder__: shapefiles to be used by baseplot in generating the map of odds ratios
 
 * __seri.csv__: an additional data file containing each state's SERI ([Science and Engineering Readiness Index]("https://www.aps.org/units/fed/newsletters/summer2011/white-cottle.cfm")) score, to be used with 2013 ACS data in the data wrangling step.
+
+* __exploratory_interactive.py__ (new): Code for an interactive visualization of my exploratory analysis that displays a line graph of science degree rate by age. Results can be sorted by state, and grouped by race or sex. This code makes use of [Bokeh]([http://bokeh.pydata.org/en/latest/]) plotting library, which can be used to create D3.js style graphics in Python. I'm working on getting this running as a standalone web app, but for now the visualization can be viewed by taking the following steps:
+	1. Run stemdata.py
+	2. [Install bokeh]([http://bokeh.pydata.org/en/latest/docs/installation.html])
+	3. Type into the command line:  
+		bokeh serve --show exploratory_interactive.py
