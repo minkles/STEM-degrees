@@ -25,6 +25,6 @@ This repo contains the following:
 
 * __exploratory_interactive.py__ (new): Code for an interactive visualization of my exploratory analysis that displays a line graph of science degree rate by age. Results can be sorted by state, and grouped by race or sex. This code makes use of [Bokeh]([http://bokeh.pydata.org/en/latest/]) plotting library, which can be used to create D3.js style graphics in Python. I'm working on getting this running as a standalone web app, but for now the visualization can be viewed by taking the following steps:
 	1. Run stemdata.py
-	2. [Install bokeh]([http://bokeh.pydata.org/en/latest/docs/installation.html])
+	2. [Install bokeh]([http://bokeh.pydata.org/en/latest/docs/installation.html]) by typing "conda install bokeh" or "pip install bokeh"
 	3. Type into the command line:  
 		bokeh serve --show exploratory_interactive.py
